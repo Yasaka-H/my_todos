@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My TODO tasks</title>
+    <link href="./main.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app">
+        <h1>TODO app for my HOMEWORK</h1>
+
+        <label v-for="label in options">
+            <input type="radio"
+                   v-model="current"
+                   v-bind:value="label.value">{{ label.label }}
+        </label>
+
+        (Display: {{ computedTodos.length }} tasks)
+
+        <table>
+            <thead v-pre>
+                <tr>
+                    <th class="id">ID</th>
+                    <th class="comment">Comment</th>
+                    <th class="limit">Time Limit</th>
+                    <th class="state">State</th>
+                    <th class="button">-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="item in computedTodos"
+                    v-bind:key="item.id"
+                    v-bind:class="{done:item.state}">
+                    <th>{{ item.id }}</th>
+                    <td class="comment">{{ item.comment }}</td>
+                    <td class="limit">{{ item.limitDate }} {{ item.limitTime }}</td>
+                    <td class="state">
+                        <button v-on:click="doChangeState(item)">
+                            {{ labels[item.state] }}
+                        </button>
+                    </td>
+                    <td class="button">
+                        <button v-on:click.ctrl="doRemove(item)">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>*Push Remove button with CTRL key</p>
+
+        <h3>Add new task</h3>
+        <form class="add-form" v-on:submit.prevent="doAdd">
+            Comment <input type="text" ref="comment">
+            Time Limit <input type="date" ref="limitDate">
+            <input type="time" ref="limitTime">
+            <button type="submit">Add</button>
+        </form>
+        <h4>Options</h4>
+        <button>Sort by Date & Time</button>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="./main.js"></script>
+</body>
+</html>
